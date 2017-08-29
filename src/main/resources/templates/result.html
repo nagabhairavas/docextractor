@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+</head>
+<body>
+<header th:unless="${session.USER == null}" th:replace="fragments/login :: login">
+</header>
+<section class="wrapper">
+	<div class="container">
+		<div th:if="${message}">
+			<h2 th:text="${message}"/>
+		</div>
+	</div>
+</section>
+
+<div th:replace="fragments/footer :: footer" />
+</body>
+</html>

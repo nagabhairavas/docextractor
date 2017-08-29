@@ -1,0 +1,35 @@
+<header th:fragment="login" id="header" class="reveal">
+	<div class="row logo">
+		<div class="col-xs-4">
+			<a href="index.html"><span><img th:src="@{/images/ambient_intel-K.svg}" src="../images/ambient_intel-K.svg" alt=""/></span></a>
+		</div>
+		<div class="col-xs-8">
+			<p class="navbar-text" th:unless="${session.USER == null}">Signed in as <a th:href="@{/logout}" class="navbar-link" th:text="${session.USER.id} + ' (' + ${session.USER.lastName} + ', ' + ${session.USER.firstName}+')'"></a></p>
+		</div>
+	</div>
+	<nav id="nav" th:unless="${session.USER != null}">
+		<form method="POST" action="/login">
+			<div class="row input-group">
+				<div class="col-xs-3">
+		    		<input type="text" name="userId" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1" />
+				</div>
+				<div class="col-xs-3">
+		    		<input type="password" name="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1" />
+		    	</div>
+		    	<div class="col-xs-3">
+		    		<input type="submit" value="Sign in" class="login submit-button btn-xs" />
+				</div>
+				<div class="col-xs-3">
+		    		<a th:href="@{/register}">Register</a>
+				</div>
+			</div>
+		</form>
+	</nav>
+	<nav id="nav" th:unless="${session.USER == null}">
+		<ul>
+         	<li><a th:href="@{/}">Upload Document</a></li>
+         	<li><a th:href="@{/competency}">Competency</a></li>
+        	<li><a th:href="@{/score}">Result</a></li>
+		</ul>
+	</nav>
+</header>

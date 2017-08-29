@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+</head>
+<body>
+<header th:unless="${session.USER == null}" th:replace="fragments/login :: login">
+</header>
+
+<section class="wrapper">
+<form method="POST" action="/competency" th:object="${test}" data-toggle="validator">
+<div class="container">
+	<div th:if="${message}">
+		<h2 th:text="${message}"/>
+	</div>
+	<input type="hidden" th:field="*{id}" th.value="${test.id}" />
+	<input type="hidden" th:field="*{userId}" th.value="${test.userId}" />
+	<div class="row col-lg-12" th:each="competency,rowCp : ${test.competencies}" th:with="idx=${counter.init()}">
+	<input type="hidden" th:field="*{competencies[__${rowCp.index}__].id}" th.value="${competency.id}" />
+		<div class="page-header">
+		<h2 th:text="${competency.description}">Competency</h2>
+		</div>
+		<div class="row col-lg-12" th:each="category,rowCt : ${competency.categories}">
+			<input type="hidden" th:field="*{competencies[__${rowCp.index}__].categories[__${rowCt.index}__].id}" th.value="${category.id}" />
+			<div class="row col-lg-12" th:each="question,rowQt : ${category.questionnaire}">
+				<p th:text="${counter.incrementAndGet()} + '. ' + ${question.name}"></p>
+				<img th:if="${question.image != null}" th:src="@{'data:image/jpg;base64,' + ${T(org.springframework.util.Base64Utils).encodeToString(question.image)}}"/>
+				<input type="hidden" th:field="*{competencies[__${rowCp.index}__].categories[__${rowCt.index}__].questionnaire[__${rowQt.index}__].itemId}" th.value="${question.itemId}" />
+				<div class="row col-lg-12 radio" th:each="choice,rowAc : ${question.choices}">
+					<input type="radio" th:field="*{competencies[__${rowCp.index}__].categories[__${rowCt.index}__].questionnaire[__${rowQt.index}__].answer}" th:value="${choice.id}" required="required" />
+					<label th:for="'competencies'+${rowCp.index}+'.categories'+${rowCt.index}+'.questionnaire'+${rowQt.index}+'.answer'+${rowAc.index+1}" th:text="${choice.name}"></label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+	  	<div class="col-sm-9">
+			<input type="submit" value="Submit" class="btn btn-primary" />
+		</div>
+	</div>
+</div>
+</form>
+</section>
+
+<div th:replace="fragments/footer :: footer" />
+</body>
+</html>

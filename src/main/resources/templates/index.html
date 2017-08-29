@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+</head>
+<body>
+<header th:replace="fragments/login :: login"></header>
+<section class="wrapper">
+	<div class="container">
+		<div th:if="${message}">
+			<h2 th:text="${message}"/>
+		</div>
+	
+		<form method="POST" enctype="multipart/form-data" action="/">
+			<div class="form-group">
+	    		<label for="exampleInputFile">Document to upload:</label>
+	    		<input type="file" name="file" />
+				<p class="help-block">Only .doc, .docx, and .pdf are supported.</p>
+			</div>
+			<input th:unless="${session.USER == null}" type="submit" value="Upload and Process" class="btn btn-primary btn-xs" />
+		</form>
+	</div>
+</section>
+
+<div th:replace="fragments/footer :: footer" />
+
+</body>
+</html>

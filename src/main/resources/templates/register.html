@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+</head>
+<body>
+<header th:fragment="login" id="header" class="reveal">
+	<h1 class="logo"><a href="index.html"><span><img th:src="@{/images/ambient_intel-K.svg}" src="../images/ambient_intel-K.svg" alt=""/></span></a></h1>
+</header>
+<section class="wrapper">
+	<div class="container">
+		<div th:if="${message}">
+			<h2 th:text="${message}"/>
+		</div>
+	
+		<form method="POST" action="/register" th:object="${user}" data-toggle="validator">
+			<div class="form-group">
+	    		<label for="firstName">First Name:</label>
+	    		<input type="text" th:field="*{firstName}" th:value="${user.firstName}" required="required" />
+			</div>
+			<div class="form-group">
+	    		<label for="lastName">Last Name:</label>
+	    		<input type="text" th:field="*{lastName}" th:value="${user.lastName}" required="required" />
+			</div>
+			<div class="form-group">
+	    		<label for="password">Password:</label>
+	    		<input type="password" th:field="*{password}" th:value="${user.password}" required="required" />
+			</div>
+			<div class="form-group">
+	    		<label for="email">Email:</label>
+	    		<input type="text" th:field="*{email}" th:value="${user.email}" required="required" />
+			</div>
+			<input th:unless="${session.USER != null}" type="submit" value="Register" class="btn btn-primary btn-xs" />
+		</form>
+	</div>
+</section>
+
+<div th:replace="fragments/footer :: footer" />
+
+</body>
+</html>
